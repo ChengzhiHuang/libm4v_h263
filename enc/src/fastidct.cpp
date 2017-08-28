@@ -64,7 +64,7 @@
 
 void idct_col0(Short *blk)
 {
-    OSCL_UNUSED_ARG(blk);
+//    OSCL_UNUSED_ARG(blk);
 
     return;
 }
@@ -312,11 +312,11 @@ void idct_col(Short *blk)
 /* This function should not be called at all ****/
 void idct_row0Inter(Short *srce, UChar *rec, Int lx)
 {
-    OSCL_UNUSED_ARG(srce);
+//    OSCL_UNUSED_ARG(srce);
 
-    OSCL_UNUSED_ARG(rec);
+//    OSCL_UNUSED_ARG(rec);
 
-    OSCL_UNUSED_ARG(lx);
+//    OSCL_UNUSED_ARG(lx);
 
     return;
 }
@@ -834,11 +834,11 @@ void idct_rowInter(Short *blk, UChar *rec, Int lx)
 
 void idct_row0Intra(Short *srce, UChar *rec, Int lx)
 {
-    OSCL_UNUSED_ARG(srce);
+//    OSCL_UNUSED_ARG(srce);
 
-    OSCL_UNUSED_ARG(rec);
+//    OSCL_UNUSED_ARG(rec);
 
-    OSCL_UNUSED_ARG(lx);
+//    OSCL_UNUSED_ARG(lx);
 
     return;
 }
@@ -1308,10 +1308,10 @@ void idct_rowIntra(Short *blk, UChar *rec, Int lx)
 /* This function should not be called at all ****/
 void idct_row0zmv(Short *srce, UChar *rec, UChar *pred, Int lx)
 {
-    OSCL_UNUSED_ARG(srce);
-    OSCL_UNUSED_ARG(rec);
-    OSCL_UNUSED_ARG(pred);
-    OSCL_UNUSED_ARG(lx);
+//    OSCL_UNUSED_ARG(srce);
+//    OSCL_UNUSED_ARG(rec);
+//    OSCL_UNUSED_ARG(pred);
+//    OSCL_UNUSED_ARG(lx);
 
     return;
 }

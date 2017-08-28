@@ -17,14 +17,15 @@
 //#define LOG_NDEBUG 0
 #define LOG_TAG "SoftMPEG4"
 #include <utils/Log.h>
-
 #include "SoftMPEG4.h"
+
+#include <SoftOMXComponent.h>
 
 #include <media/stagefright/foundation/ADebug.h>
 #include <media/stagefright/foundation/AUtils.h>
 #include <media/stagefright/MediaDefs.h>
 #include <media/stagefright/MediaErrors.h>
-#include <media/IOMX.h>
+//#include <IOMX.h>
 
 #include "mp4dec_api.h"
 

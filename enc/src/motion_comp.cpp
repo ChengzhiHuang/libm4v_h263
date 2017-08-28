@@ -111,7 +111,7 @@ void getMotionCompensatedMB(VideoEncData *video, Int ind_x, Int ind_y, Int offse
     Int xsum, ysum;
     Int round1;
 
-    OSCL_UNUSED_ARG(offset);
+//    OSCL_UNUSED_ARG(offset);
 
     round1 = (Int)(1 - video->currVop->roundingType);
 
@@ -358,7 +358,7 @@ Int GetPredAdvBy0x0(
     ULong  pred_word, word1, word2;
     Int tmp;
 
-    OSCL_UNUSED_ARG(rnd);
+//    OSCL_UNUSED_ARG(rnd);
 
     /* initialize offset to adjust pixel counter */
     /*    the next row; full-pel resolution      */

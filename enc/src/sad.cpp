@@ -81,7 +81,7 @@ extern "C"
         Int dmin = (ULong)dmin_lx >> 16;
         Int lx = dmin_lx & 0xFFFF;
 
-        OSCL_UNUSED_ARG(extra_info);
+//        OSCL_UNUSED_ARG(extra_info);
 
         NUM_SAD_MB_CALL();
 

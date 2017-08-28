@@ -68,7 +68,7 @@ extern "C"
         UChar *kk, *p1, *p2;
         Int temp;
 
-        OSCL_UNUSED_ARG(jh);
+//        OSCL_UNUSED_ARG(jh);
 
         p1 = ref;
         if (ih) p2 = ref + 1;
@@ -142,7 +142,7 @@ extern "C"
         UChar *kk, *p1, *p2;
         Int temp;
 
-        OSCL_UNUSED_ARG(jh);
+//        OSCL_UNUSED_ARG(jh);
 
         p1 = ref;
         if (ih) p2 = ref + 1;
@@ -227,7 +227,7 @@ extern "C"
         Int temp;
         Int rx = dmin_rx & 0xFFFF;
 
-        OSCL_UNUSED_ARG(extra_info);
+//        OSCL_UNUSED_ARG(extra_info);
 
         NUM_SAD_HP_MB_CALL();
 
@@ -268,7 +268,7 @@ extern "C"
         Int temp;
         Int rx = dmin_rx & 0xFFFF;
 
-        OSCL_UNUSED_ARG(extra_info);
+//        OSCL_UNUSED_ARG(extra_info);
 
         NUM_SAD_HP_MB_CALL();
 
@@ -304,7 +304,7 @@ extern "C"
         Int temp;
         Int rx = dmin_rx & 0xFFFF;
 
-        OSCL_UNUSED_ARG(extra_info);
+//        OSCL_UNUSED_ARG(extra_info);
 
         NUM_SAD_HP_MB_CALL();
 
@@ -784,7 +784,7 @@ extern "C"
         UChar *kk, *p1, *p2, *p3, *p4;
         Int temp;
 
-        OSCL_UNUSED_ARG(extra_info);
+//        OSCL_UNUSED_ARG(extra_info);
 
         NUM_SAD_HP_BLK_CALL();
 

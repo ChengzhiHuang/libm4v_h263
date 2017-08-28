@@ -63,7 +63,7 @@ __inline int32 coeff_dequant(int32 q_value, int32 QPx2, int32 Addition, int32 tm
 {
     int32 coeff;
 
-    OSCL_UNUSED_ARG(tmp);
+//    OSCL_UNUSED_ARG(tmp);
 
     if (q_value < 0)
     {
@@ -107,7 +107,7 @@ __inline int32 aan_dc_scale(int32 coeff, int32 QP)
 
 __inline int32 clip_2047(int32 q_value, int32 tmp)
 {
-    OSCL_UNUSED_ARG(tmp);
+//    OSCL_UNUSED_ARG(tmp);
 
     if (q_value < -2048)
     {
@@ -125,7 +125,7 @@ __inline int32 coeff_dequant_mpeg(int32 q_value, int32 stepsize, int32 QP, int32
 {
     int32 coeff;
 
-    OSCL_UNUSED_ARG(tmp);
+//    OSCL_UNUSED_ARG(tmp);
 
     coeff = q_value << 1;
     stepsize *= QP;
@@ -148,7 +148,7 @@ __inline int32 coeff_dequant_mpeg(int32 q_value, int32 stepsize, int32 QP, int32
 
 __inline int32 coeff_dequant_mpeg_intra(int32 q_value, int32 tmp)
 {
-    OSCL_UNUSED_ARG(tmp);
+//    OSCL_UNUSED_ARG(tmp);
 
     q_value <<= 1;
     if (q_value > 0)

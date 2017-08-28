@@ -16,6 +16,7 @@
  * -------------------------------------------------------------------
  */
 #include "mp4dec_lib.h"
+typedef uint Bool;
 #include "vlc_decode.h"
 #include "bitstream.h"
 
@@ -60,7 +61,6 @@ extern Vop                  IMEM_vopHeader[2][1];
 extern Vol                  IMEM_vol[2][1];
 
 #endif
-
 /* ======================================================================== */
 /*  Function : PVInitVideoDecoder()                                         */
 /*  Date     : 04/11/2000, 08/29/2000                                       */
@@ -72,7 +72,7 @@ extern Vol                  IMEM_vol[2][1];
 /*  Return   : PV_TRUE if successed, PV_FALSE if failed.                    */
 /*  Modified :                                                              */
 /* ======================================================================== */
-OSCL_EXPORT_REF Bool PVInitVideoDecoder(VideoDecControls *decCtrl, uint8 *volbuf[],
+Bool PVInitVideoDecoder(VideoDecControls *decCtrl, uint8 *volbuf[],
                                         int32 *volbuf_size, int nLayers, int width, int height, MP4DecodingMode mode)
 {
     VideoDecData *video = (VideoDecData *) decCtrl->videoDecoderData;
@@ -602,7 +602,7 @@ Bool PVResetVideoDecoder(VideoDecControls *decCtrl)
 /*  Return   : PV_TRUE if successed, PV_FALSE if failed.                    */
 /*  Modified :                                                              */
 /* ======================================================================== */
-OSCL_EXPORT_REF Bool PVCleanUpVideoDecoder(VideoDecControls *decCtrl)
+Bool PVCleanUpVideoDecoder(VideoDecControls *decCtrl)
 {
     int idx;
     VideoDecData *video = (VideoDecData *) decCtrl->videoDecoderData;
@@ -767,14 +767,14 @@ OSCL_EXPORT_REF Bool PVCleanUpVideoDecoder(VideoDecControls *decCtrl)
 /*              not want to expose our internal data structure.             */
 /*  Modified :                                                              */
 /* ======================================================================== */
-OSCL_EXPORT_REF void PVGetVideoDimensions(VideoDecControls *decCtrl, int32 *display_width, int32 *display_height)
+void PVGetVideoDimensions(VideoDecControls *decCtrl, int32 *display_width, int32 *display_height)
 {
     VideoDecData *video = (VideoDecData *)decCtrl->videoDecoderData;
     *display_width = video->displayWidth;
     *display_height = video->displayHeight;
 }
 
-OSCL_EXPORT_REF void PVGetBufferDimensions(VideoDecControls *decCtrl, int32 *width, int32 *height) {
+void PVGetBufferDimensions(VideoDecControls *decCtrl, int32 *width, int32 *height) {
     VideoDecData *video = (VideoDecData *)decCtrl->videoDecoderData;
     *width = video->width;
     *height = video->height;
@@ -805,7 +805,7 @@ uint32 PVGetVideoTimeStamp(VideoDecControls *decCtrl)
 /*  Note     :                                                              */
 /*  Modified : . 08/29/2000 changes the name for consistency.               */
 /* ======================================================================== */
-OSCL_EXPORT_REF void PVSetPostProcType(VideoDecControls *decCtrl, int mode)
+void PVSetPostProcType(VideoDecControls *decCtrl, int mode)
 {
     VideoDecData *video = (VideoDecData *)decCtrl->videoDecoderData;
     video->postFilterType = mode;
@@ -906,7 +906,7 @@ int32 PVGetDecMemoryUsage(VideoDecControls *decCtrl)
 /*  Note     :                                                              */
 /*  Modified :                                                              */
 /* ======================================================================== */
-OSCL_EXPORT_REF MP4DecodingMode PVGetDecBitstreamMode(VideoDecControls *decCtrl)
+MP4DecodingMode PVGetDecBitstreamMode(VideoDecControls *decCtrl)
 {
     VideoDecData *video = (VideoDecData *)decCtrl->videoDecoderData;
     if (video->shortVideoHeader)
@@ -1050,7 +1050,7 @@ int32 PVLocateH263FrameHeader(uint8 *ptr, int32 size)
 /*           : 08/22/2002 break up into 2 functions PVDecodeVopHeader and */
 /*                          PVDecodeVopBody                                 */
 /* ======================================================================== */
-OSCL_EXPORT_REF Bool PVDecodeVideoFrame(VideoDecControls *decCtrl, uint8 *buffer[],
+Bool PVDecodeVideoFrame(VideoDecControls *decCtrl, uint8 *buffer[],
                                         uint32 timestamp[], int32 buffer_size[], uint use_ext_timestamp[], uint8 *currYUV)
 {
     PV_STATUS status = PV_FAIL;
@@ -1504,7 +1504,7 @@ Bool PVDecodeVopBody(VideoDecControls *decCtrl, int32 buffer_size[])
 }
 
 #ifdef PV_MEMORY_POOL
-OSCL_EXPORT_REF void PVSetReferenceYUV(VideoDecControls *decCtrl, uint8 *YUV)
+void PVSetReferenceYUV(VideoDecControls *decCtrl, uint8 *YUV)
 {
     VideoDecData *video = (VideoDecData *)decCtrl->videoDecoderData;
     video->prevVop->yChan = (PIXEL *)YUV;

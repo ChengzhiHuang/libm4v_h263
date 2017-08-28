@@ -26,7 +26,9 @@
 #ifndef _PV_TYPES_
 #define _PV_TYPES_
 
+#ifdef LINUX_X86
 typedef uint Bool;
+#endif
 
 #define PV_CODEC_INIT  0
 #define PV_CODEC_STOP  1
@@ -146,28 +148,27 @@ extern "C"
 {
 #endif
 
-
-    OSCL_IMPORT_REF Bool    PVInitVideoDecoder(VideoDecControls *decCtrl, uint8 *volbuf[], int32 *volbuf_size, int nLayers, int width, int height, MP4DecodingMode mode);
+    Bool    PVInitVideoDecoder(VideoDecControls *decCtrl, uint8 *volbuf[], int32 *volbuf_size, int nLayers, int width, int height, MP4DecodingMode mode);
     Bool    PVAllocVideoData(VideoDecControls *decCtrl, int width, int height, int nLayers);
-    OSCL_IMPORT_REF Bool    PVCleanUpVideoDecoder(VideoDecControls *decCtrl);
+    Bool    PVCleanUpVideoDecoder(VideoDecControls *decCtrl);
     Bool    PVResetVideoDecoder(VideoDecControls *decCtrl);
-    OSCL_IMPORT_REF void    PVSetReferenceYUV(VideoDecControls *decCtrl, uint8 *refYUV);
+    void    PVSetReferenceYUV(VideoDecControls *decCtrl, uint8 *refYUV);
     Bool    PVDecSetReference(VideoDecControls *decCtrl, uint8 *refYUV, uint32 timestamp);
     Bool    PVDecSetEnhReference(VideoDecControls *decCtrl, uint8 *refYUV, uint32 timestamp);
-    OSCL_IMPORT_REF Bool    PVDecodeVideoFrame(VideoDecControls *decCtrl, uint8 *bitstream[], uint32 *timestamp, int32 *buffer_size, uint use_ext_timestamp[], uint8* currYUV);
+    Bool    PVDecodeVideoFrame(VideoDecControls *decCtrl, uint8 *bitstream[], uint32 *timestamp, int32 *buffer_size, uint use_ext_timestamp[], uint8* currYUV);
     Bool    PVDecodeVopHeader(VideoDecControls *decCtrl, uint8 *buffer[], uint32 timestamp[], int32 buffer_size[], VopHeaderInfo *header_info, uint use_ext_timestamp[], uint8 *currYUV);
     Bool    PVDecodeVopBody(VideoDecControls *decCtrl, int32 buffer_size[]);
     void    PVDecPostProcess(VideoDecControls *decCtrl, uint8 *outputYUV);
-    OSCL_IMPORT_REF void    PVGetVideoDimensions(VideoDecControls *decCtrl, int32 *display_width, int32 *display_height);
-    OSCL_IMPORT_REF void    PVGetBufferDimensions(VideoDecControls *decCtrl, int32 *buf_width, int32 *buf_height);
-    OSCL_IMPORT_REF void    PVSetPostProcType(VideoDecControls *decCtrl, int mode);
+    void    PVGetVideoDimensions(VideoDecControls *decCtrl, int32 *display_width, int32 *display_height);
+    void    PVGetBufferDimensions(VideoDecControls *decCtrl, int32 *buf_width, int32 *buf_height);
+    void    PVSetPostProcType(VideoDecControls *decCtrl, int mode);
     uint32  PVGetVideoTimeStamp(VideoDecControls *decoderControl);
     int     PVGetDecBitrate(VideoDecControls *decCtrl);
     int     PVGetDecFramerate(VideoDecControls *decCtrl);
     uint8   *PVGetDecOutputFrame(VideoDecControls *decCtrl);
     int     PVGetLayerID(VideoDecControls *decCtrl);
     int32   PVGetDecMemoryUsage(VideoDecControls *decCtrl);
-    OSCL_IMPORT_REF MP4DecodingMode PVGetDecBitstreamMode(VideoDecControls *decCtrl);
+    MP4DecodingMode PVGetDecBitstreamMode(VideoDecControls *decCtrl);
     Bool    PVExtractVolHeader(uint8 *video_buffer, uint8 *vol_header, int32 *vol_header_size);
     int32   PVLocateFrameHeader(uint8 *video_buffer, int32 vop_size);
     int32   PVLocateH263FrameHeader(uint8 *video_buffer, int32 vop_size);

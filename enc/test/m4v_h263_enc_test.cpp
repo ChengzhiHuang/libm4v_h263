@@ -72,32 +72,32 @@ int main(int argc, char *argv[]) {
     int32_t height;
     width = atoi(argv[4]);
     height = atoi(argv[5]);
-    if (width > kMaxWidth || height > kMaxHeight || width <= 0 || height <= 0) {
-        fprintf(stderr, "Unsupported dimensions %dx%d\n", width, height);
-        return EXIT_FAILURE;
-    }
+//    if (width > kMaxWidth || height > kMaxHeight || width <= 0 || height <= 0) {
+//        fprintf(stderr, "Unsupported dimensions %dx%d\n", width, height);
+//        return EXIT_FAILURE;
+//    }
 
-    if (width % 16 != 0 || height % 16 != 0) {
-        fprintf(stderr, "Video frame size %dx%d must be a multiple of 16\n",
-            width, height);
-        return EXIT_FAILURE;
-    }
+//    if (width % 16 != 0 || height % 16 != 0) {
+//        fprintf(stderr, "Video frame size %dx%d must be a multiple of 16\n",
+//            width, height);
+//        return EXIT_FAILURE;
+//    }
 
     // Read frame rate.
     int32_t frameRate;
     frameRate = atoi(argv[6]);
-    if (frameRate > kMaxFrameRate || frameRate <= 0) {
-        fprintf(stderr, "Unsupported frame rate %d\n", frameRate);
-        return EXIT_FAILURE;
-    }
+//    if (frameRate > kMaxFrameRate || frameRate <= 0) {
+//        fprintf(stderr, "Unsupported frame rate %d\n", frameRate);
+//        return EXIT_FAILURE;
+//    }
 
     // Read bitrate.
     int32_t bitrate;
     bitrate = atoi(argv[7]);
-    if (bitrate > kMaxBitrate || bitrate <= 0) {
-        fprintf(stderr, "Unsupported bitrate %d\n", bitrate);
-        return EXIT_FAILURE;
-    }
+//    if (bitrate > kMaxBitrate || bitrate <= 0) {
+//        fprintf(stderr, "Unsupported bitrate %d\n", bitrate);
+//        return EXIT_FAILURE;
+//    }
 
     // Allocate input buffer.
     uint8_t *inputBuf = (uint8_t *)malloc((width * height * 3) / 2);
@@ -145,13 +145,17 @@ int main(int argc, char *argv[]) {
     }
     encParams.encWidth[0] = width;
     encParams.encHeight[0] = height;
-    encParams.encFrameRate[0] = frameRate;
-    encParams.rcType = VBR_1;
+
+    encParams.rcType = CBR_1;
     encParams.vbvDelay = 5.0f;
-    encParams.profile_level = CORE_PROFILE_LEVEL2;
+    //comment by HuangChengZhi
+//    encParams.profile_level = CORE_PROFILE_LEVEL2;
+//    encParams.numLayers = 1;
+//    encParams.encFrameRate[0] = frameRate;
+    //
     encParams.packetSize = 32;
     encParams.rvlcEnable = PV_OFF;
-    encParams.numLayers = 1;
+
     encParams.timeIncRes = 1000;
     encParams.tickPerSrc = encParams.timeIncRes / frameRate;
 
@@ -160,6 +164,14 @@ int main(int argc, char *argv[]) {
     encParams.pQuant[0] = 12;
     encParams.quantType[0] = 0;
     encParams.noFrameSkipped = PV_OFF;
+
+
+    //add by HuangChengZhi
+    encParams.numLayers = 2;
+    encParams.profile_level = CORE_SCALABLE_PROFILE_LEVEL3;
+    encParams.encFrameRate[0] = frameRate / 2;
+    encParams.encFrameRate[1] = frameRate / 1;
+    //
 
     int32_t  IDRFrameRefreshIntervalInSec = kIDRFrameRefreshIntervalInSec;
     if (IDRFrameRefreshIntervalInSec == 0) {
@@ -236,7 +248,7 @@ int main(int argc, char *argv[]) {
         // Write the output.
         fwrite(outputBuf, 1, dataLength, fpOutput);
     }
-
+    printf("numFramesEncoded : %d \n",numFramesEncoded);
     // Close input and output file.
     fclose(fpInput);
     fclose(fpOutput);

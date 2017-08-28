@@ -74,9 +74,15 @@ const static Int profile_level_code[8] =
     0x08, 0x01, 0x02, 0x03, 0x21, 0x22, 0x22, 0x22
 };
 
+//comment by HuangChengZhi
+//const static Int profile_level_max_bitrate[8] =
+//{
+//    64000, 64000, 128000, 384000, 384000, 2000000, 2000000, 2000000
+//};
+//
 const static Int profile_level_max_bitrate[8] =
 {
-    64000, 64000, 128000, 384000, 384000, 2000000, 2000000, 2000000
+    64000, 64000, 128000, 384000, 384000, 4000000, 4000000, 4000000
 };
 
 const static Int profile_level_max_packet_size[8] =
@@ -86,8 +92,14 @@ const static Int profile_level_max_packet_size[8] =
 
 const static Int profile_level_max_mbsPerSec[8] =
 {
-    1485, 1485, 5940, 11880, 5940, 23760, 23760, 23760
+    1485, 1485, 5940, 11880, 5940, 23760, 237600, 237600
 };
+//commet by HuangChengzhi
+//const static Int profile_level_max_mbsPerSec[8] =
+//{
+//    1485, 1485, 5940, 11880, 5940, 23760, 23760, 23760
+//};
+//
 
 const static Int profile_level_max_VBV_size[8] =
 {
@@ -116,9 +128,15 @@ const static Int scalable_profile_level_max_packet_size[8] =
 
 const static Int scalable_profile_level_max_mbsPerSec[8] =
 {
-    1485, 7425, 23760, 23760, 14850, 29700, 120960, 120960
+    1485, 7425, 23760, 23760, 14850, 29700, 1209600, 1209600
 };
 
+// commet by HuangChengZhi
+//const static Int scalable_profile_level_max_mbsPerSec[8] =
+//        {
+//                1485, 7425, 23760, 23760, 14850, 29700, 120960, 120960
+//        };
+//
 const static Int scalable_profile_level_max_VBV_size[8] =
 {
     163840, 655360, 655360, 655360, 1048576, 1310720, 1310720, 1310720
@@ -161,14 +179,14 @@ extern FILE *fec;
 /*                                                                          */
 /* ======================================================================== */
 
-OSCL_EXPORT_REF Bool PVGetDefaultEncOption(VideoEncOptions *encOption, Int encUseCase)
+Bool PVGetDefaultEncOption(VideoEncOptions *encOption, Int encUseCase)
 {
     VideoEncOptions defaultUseCase = {H263_MODE, profile_level_max_packet_size[SIMPLE_PROFILE_LEVEL0] >> 3,
                                       SIMPLE_PROFILE_LEVEL0, PV_OFF, 0, 1, 1000, 33, {144, 144}, {176, 176}, {15, 30}, {64000, 128000},
                                       {10, 10}, {12, 12}, {0, 0}, CBR_1, 0.0, PV_OFF, -1, 0, PV_OFF, 16, PV_OFF, 0, PV_ON
                                      };
 
-    OSCL_UNUSED_ARG(encUseCase); // unused for now. Later we can add more defaults setting and use this
+//    OSCL_UNUSED_ARG(encUseCase); // unused for now. Later we can add more defaults setting and use this
     // argument to select the right one.
     /* in the future we can create more meaningful use-cases */
     if (encOption == NULL)
@@ -190,7 +208,7 @@ OSCL_EXPORT_REF Bool PVGetDefaultEncOption(VideoEncOptions *encOption, Int encUs
 /*  Modified :  5/21/01, allocate only yChan and assign uChan & vChan   */
 /*              12/12/05, add encoding option as input argument         */
 /* ======================================================================== */
-OSCL_EXPORT_REF Bool    PVInitVideoEncoder(VideoEncControls *encoderControl, VideoEncOptions *encOption)
+Bool    PVInitVideoEncoder(VideoEncControls *encoderControl, VideoEncOptions *encOption)
 {
 
     Bool        status = PV_TRUE;
@@ -1108,7 +1126,7 @@ CLEAN_UP:
 /*                                                                          */
 /* ======================================================================== */
 
-OSCL_EXPORT_REF Bool    PVCleanUpVideoEncoder(VideoEncControls *encoderControl)
+Bool    PVCleanUpVideoEncoder(VideoEncControls *encoderControl)
 {
     Int idx, i;
     VideoEncData *video = (VideoEncData *)encoderControl->videoEncoderData;
@@ -1312,7 +1330,7 @@ OSCL_EXPORT_REF Bool    PVCleanUpVideoEncoder(VideoEncControls *encoderControl)
 /*                                                                          */
 /* ======================================================================== */
 
-OSCL_EXPORT_REF Bool PVGetVolHeader(VideoEncControls *encCtrl, UChar *volHeader, Int *size, Int layer)
+Bool PVGetVolHeader(VideoEncControls *encCtrl, UChar *volHeader, Int *size, Int layer)
 {
     VideoEncData    *encData;
     PV_STATUS   EncodeVOS_Start(VideoEncControls *encCtrl);
@@ -1355,7 +1373,7 @@ OSCL_EXPORT_REF Bool PVGetVolHeader(VideoEncControls *encCtrl, UChar *volHeader,
 /*  Modified :                                                              */
 /* ======================================================================== */
 
-OSCL_EXPORT_REF UChar* PVGetOverrunBuffer(VideoEncControls *encCtrl)
+UChar* PVGetOverrunBuffer(VideoEncControls *encCtrl)
 {
     VideoEncData *video = (VideoEncData *)encCtrl->videoEncoderData;
     Int currLayer = video->currLayer;
@@ -1383,7 +1401,7 @@ OSCL_EXPORT_REF UChar* PVGetOverrunBuffer(VideoEncControls *encCtrl)
 /*              Finishing new timestamp 32-bit input                        */
 /*              Applications need to take care of wrap-around               */
 /* ======================================================================== */
-OSCL_EXPORT_REF Bool PVEncodeVideoFrame(VideoEncControls *encCtrl, VideoEncFrameIO *vid_in, VideoEncFrameIO *vid_out,
+Bool PVEncodeVideoFrame(VideoEncControls *encCtrl, VideoEncFrameIO *vid_in, VideoEncFrameIO *vid_out,
                                         ULong *nextModTime, UChar *bstream, Int *size, Int *nLayer)
 {
     Bool status = PV_TRUE;
@@ -1678,7 +1696,7 @@ OSCL_EXPORT_REF Bool PVEncodeVideoFrame(VideoEncControls *encCtrl, VideoEncFrame
 /*  Modified :                                                              */
 /*                                                                          */
 /* ======================================================================== */
-OSCL_EXPORT_REF Bool PVEncodeFrameSet(VideoEncControls *encCtrl, VideoEncFrameIO *vid_in, ULong *nextModTime, Int *nLayer)
+Bool PVEncodeFrameSet(VideoEncControls *encCtrl, VideoEncFrameIO *vid_in, ULong *nextModTime, Int *nLayer)
 {
     Bool status = PV_TRUE;
     VideoEncData *video = (VideoEncData *)encCtrl->videoEncoderData;
@@ -1868,7 +1886,7 @@ OSCL_EXPORT_REF Bool PVEncodeFrameSet(VideoEncControls *encCtrl, VideoEncFrameIO
 /*  Modified :                                                              */
 /*                                                                          */
 /* ======================================================================== */
-OSCL_EXPORT_REF Bool PVEncodeSlice(VideoEncControls *encCtrl, UChar *bstream, Int *size,
+Bool PVEncodeSlice(VideoEncControls *encCtrl, UChar *bstream, Int *size,
                                    Int *endofFrame, VideoEncFrameIO *vid_out, ULong *nextModTime)
 {
     PV_STATUS pv_status;
@@ -2006,7 +2024,7 @@ OSCL_EXPORT_REF Bool PVEncodeSlice(VideoEncControls *encCtrl, UChar *bstream, In
 /*             max_h263_width[2], max_h263_height[2] are global             */
 /*                                                                          */
 /* ======================================================================== */
-OSCL_EXPORT_REF Bool PVGetH263ProfileLevelID(VideoEncControls *encCtrl, Int *profileID, Int *levelID)
+Bool PVGetH263ProfileLevelID(VideoEncControls *encCtrl, Int *profileID, Int *levelID)
 {
     VideoEncData *encData;
     Int width, height;
@@ -2076,7 +2094,7 @@ OSCL_EXPORT_REF Bool PVGetH263ProfileLevelID(VideoEncControls *encCtrl, Int *pro
 /*  Modified :                                                              */
 /*                                                                          */
 /* ======================================================================== */
-OSCL_EXPORT_REF Bool PVGetMPEG4ProfileLevelID(VideoEncControls *encCtrl, Int *profile_level, Int nLayer)
+Bool PVGetMPEG4ProfileLevelID(VideoEncControls *encCtrl, Int *profile_level, Int nLayer)
 {
     VideoEncData* video;
     Int i;
@@ -2121,7 +2139,7 @@ OSCL_EXPORT_REF Bool PVGetMPEG4ProfileLevelID(VideoEncControls *encCtrl, Int *pr
 /*                                                                          */
 /* ======================================================================== */
 
-OSCL_EXPORT_REF Bool PVUpdateEncFrameRate(VideoEncControls *encCtrl, float *frameRate)
+Bool PVUpdateEncFrameRate(VideoEncControls *encCtrl, float *frameRate)
 {
     VideoEncData    *encData;
     Int i;// nTotalMB, mbPerSec;
@@ -2162,7 +2180,7 @@ OSCL_EXPORT_REF Bool PVUpdateEncFrameRate(VideoEncControls *encCtrl, float *fram
 /*                                                                          */
 /* ======================================================================== */
 
-OSCL_EXPORT_REF Bool PVUpdateBitRate(VideoEncControls *encCtrl, Int *bitRate)
+Bool PVUpdateBitRate(VideoEncControls *encCtrl, Int *bitRate)
 {
     VideoEncData    *encData;
     Int i;
@@ -2240,7 +2258,7 @@ Bool PVUpdateVBVDelay(VideoEncControls *encCtrl, float delay)
 /*                                                                          */
 /* ======================================================================== */
 
-OSCL_EXPORT_REF Bool PVUpdateIFrameInterval(VideoEncControls *encCtrl, Int aIFramePeriod)
+Bool PVUpdateIFrameInterval(VideoEncControls *encCtrl, Int aIFramePeriod)
 {
     VideoEncData    *encData;
 
@@ -2265,7 +2283,7 @@ OSCL_EXPORT_REF Bool PVUpdateIFrameInterval(VideoEncControls *encCtrl, Int aIFra
 /*  Modified :                                                              */
 /*                                                                          */
 /* ======================================================================== */
-OSCL_EXPORT_REF Bool    PVUpdateNumIntraMBRefresh(VideoEncControls *encCtrl, Int numMB)
+Bool    PVUpdateNumIntraMBRefresh(VideoEncControls *encCtrl, Int numMB)
 {
     VideoEncData    *encData;
 
@@ -2290,7 +2308,7 @@ OSCL_EXPORT_REF Bool    PVUpdateNumIntraMBRefresh(VideoEncControls *encCtrl, Int
 /*                                                                          */
 /* ======================================================================== */
 
-OSCL_EXPORT_REF Bool PVIFrameRequest(VideoEncControls *encCtrl)
+Bool PVIFrameRequest(VideoEncControls *encCtrl)
 {
     VideoEncData    *encData;
 
@@ -2316,7 +2334,7 @@ OSCL_EXPORT_REF Bool PVIFrameRequest(VideoEncControls *encCtrl)
 /*                                                                          */
 /* ======================================================================== */
 
-OSCL_EXPORT_REF Int PVGetEncMemoryUsage(VideoEncControls *encCtrl)
+Int PVGetEncMemoryUsage(VideoEncControls *encCtrl)
 {
     VideoEncData    *encData;
 
@@ -2340,7 +2358,7 @@ OSCL_EXPORT_REF Int PVGetEncMemoryUsage(VideoEncControls *encCtrl)
 /*                                                                          */
 /* ======================================================================== */
 
-OSCL_EXPORT_REF Bool PVGetHintTrack(VideoEncControls *encCtrl, MP4HintTrack *info)
+Bool PVGetHintTrack(VideoEncControls *encCtrl, MP4HintTrack *info)
 {
     VideoEncData    *encData;
 
@@ -2368,7 +2386,7 @@ OSCL_EXPORT_REF Bool PVGetHintTrack(VideoEncControls *encCtrl, MP4HintTrack *inf
 /*                                                                          */
 /* ======================================================================== */
 
-OSCL_EXPORT_REF Bool PVGetMaxVideoFrameSize(VideoEncControls *encCtrl, Int *maxVideoFrameSize)
+Bool PVGetMaxVideoFrameSize(VideoEncControls *encCtrl, Int *maxVideoFrameSize)
 {
     VideoEncData    *encData;
 
@@ -2404,7 +2422,7 @@ OSCL_EXPORT_REF Bool PVGetMaxVideoFrameSize(VideoEncControls *encCtrl, Int *maxV
 /*                                                                          */
 /* ======================================================================== */
 
-OSCL_EXPORT_REF Bool PVGetVBVSize(VideoEncControls *encCtrl, Int *VBVSize)
+Bool PVGetVBVSize(VideoEncControls *encCtrl, Int *VBVSize)
 {
     VideoEncData    *encData;
 

@@ -1509,7 +1509,7 @@ Void BlockCodeCoeff_ShortHeader(RunLevelBlock *RLB, BitstreamEncVideo *bs, Int j
     Int level;
     Int run;
 
-    OSCL_UNUSED_ARG(Mode);
+//    OSCL_UNUSED_ARG(Mode);
 
     /* Not Last Coefficient */
     for (i = j_start; i < j_stop - 1; i++)

@@ -661,7 +661,7 @@ extern "C"
         Int *curInt, tmp;
         Int ColTh;
 
-        OSCL_UNUSED_ARG(dummy2);
+//        OSCL_UNUSED_ARG(dummy2);
 
         dst = out + 64 ;
         ColTh = *dst;
@@ -872,7 +872,7 @@ extern "C"
         Int abs_sum;
         Int ColTh;
 
-        OSCL_UNUSED_ARG(dummy2);
+//        OSCL_UNUSED_ARG(dummy2);
 
         dst = out + 64 ;
         ColTh = *dst;
@@ -1059,7 +1059,7 @@ extern "C"
         Int abs_sum;
         Int ColTh;
 
-        OSCL_UNUSED_ARG(dummy2);
+//        OSCL_UNUSED_ARG(dummy2);
 
         dst = out + 64 ;
         ColTh = *dst;
@@ -1250,7 +1250,7 @@ extern "C"
         Int temp = 0;
         ULong word;
 
-        OSCL_UNUSED_ARG(dummy2);
+//        OSCL_UNUSED_ARG(dummy2);
 
         end = cur + (width << 3);
         do

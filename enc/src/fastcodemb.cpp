@@ -81,7 +81,7 @@ PV_STATUS CodeMB_H263(VideoEncData *video, approxDCT *function, Int QP, Int ncoe
     Int offsetc = (offset >> 2) + (ind_x << 2); /* offset for chrom */
     /*****************************/
 
-    OSCL_UNUSED_ARG(function);
+//    OSCL_UNUSED_ARG(function);
 
     output = video->outputMB->block[0];
     CBP = 0;
@@ -312,7 +312,7 @@ PV_STATUS CodeMB_MPEG(VideoEncData *video, approxDCT *function, Int QP, Int ncoe
     Int offsetc = (offset >> 2) + (ind_x << 2); /* offset for chrom */
     /*****************************/
 
-    OSCL_UNUSED_ARG(function);
+//    OSCL_UNUSED_ARG(function);
 
     output = video->outputMB->block[0];
     CBP = 0;

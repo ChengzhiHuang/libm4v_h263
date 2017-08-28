@@ -28,7 +28,7 @@ __inline int32 mla724(int32 op1, int32 op2, int32 op3)
 {
     int32 out;
 
-    OSCL_UNUSED_ARG(op1);
+//    OSCL_UNUSED_ARG(op1);
 
     out = op2 * 724 + op3; /* op1 is not used here */
 
@@ -39,7 +39,7 @@ __inline int32 mla392(int32 k0, int32 k14, int32 round)
 {
     int32 k1;
 
-    OSCL_UNUSED_ARG(k14);
+//    OSCL_UNUSED_ARG(k14);
 
     k1 = k0 * 392 + round;
 
@@ -50,7 +50,7 @@ __inline int32 mla554(int32 k4, int32 k12, int32 k1)
 {
     int32 k0;
 
-    OSCL_UNUSED_ARG(k12);
+//    OSCL_UNUSED_ARG(k12);
 
     k0 = k4 * 554 + k1;
 
@@ -61,7 +61,7 @@ __inline int32 mla1338(int32 k6, int32 k14, int32 k1)
 {
     int32 out;
 
-    OSCL_UNUSED_ARG(k14);
+//    OSCL_UNUSED_ARG(k14);
 
     out = k6 * 1338 + k1;
 
@@ -72,7 +72,7 @@ __inline int32 mla946(int32 k6, int32 k14, int32 k1)
 {
     int32 out;
 
-    OSCL_UNUSED_ARG(k14);
+//    OSCL_UNUSED_ARG(k14);
 
     out = k6 * 946 + k1;
 

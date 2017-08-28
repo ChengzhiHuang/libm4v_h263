@@ -1192,7 +1192,7 @@ Int fullsearch(VideoEncData *video, Vol *currVol, UChar *prev, UChar *cur,
 
     Int offset = i0 + j0 * lx;
 
-    OSCL_UNUSED_ARG(currVol);
+//    OSCL_UNUSED_ARG(currVol);
 
     cand = prev + offset;
 
@@ -1273,7 +1273,7 @@ Int fullsearchBlk(VideoEncData *video, Vol *currVol, UChar *cent, UChar *cur,
     Int(*SAD_Block)(UChar*, UChar*, Int, Int, void*) = video->functionPointer->SAD_Block;
     void *extra_info = video->sad_extra_info;
 
-    OSCL_UNUSED_ARG(currVol);
+//    OSCL_UNUSED_ARG(currVol);
 
     /* starting point centered at 16x16 MV */
     ref = cent;

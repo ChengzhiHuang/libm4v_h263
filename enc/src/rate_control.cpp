@@ -155,8 +155,8 @@ PV_STATUS RC_Initialize(void *input)
 
 PV_STATUS RC_Cleanup(rateControl *rc[], Int numLayers)
 {
-    OSCL_UNUSED_ARG(rc);
-    OSCL_UNUSED_ARG(numLayers);
+//    OSCL_UNUSED_ARG(rc);
+//    OSCL_UNUSED_ARG(numLayers);
 
     return PV_SUCCESS;
 }
@@ -192,7 +192,7 @@ PV_STATUS RC_VopQPSetting(VideoEncData *video, rateControl *prc[])
     rateControl *rc = video->rc[currLayer];
     MultiPass *pMP = video->pMP[currLayer];
 
-    OSCL_UNUSED_ARG(prc);
+//    OSCL_UNUSED_ARG(prc);
 
     if (video->encParams->RC_Type == CONSTANT_Q)
     {

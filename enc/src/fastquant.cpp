@@ -163,8 +163,8 @@ Int BlockQuantDequantH263Inter(Short *rcoeff, Short *qcoeff, struct QPstruct *Qu
     UChar *bcolptr = bitmapcol;
     Int ac_clip;    /* quantized coeff bound */
 
-    OSCL_UNUSED_ARG(comp);
-    OSCL_UNUSED_ARG(dummy);
+//    OSCL_UNUSED_ARG(comp);
+//    OSCL_UNUSED_ARG(dummy);
 
 
     if (shortHeader) ac_clip = 126; /* clip between [-127,126] (standard allows 127!) */
@@ -281,8 +281,8 @@ Int BlockQuantDequantH263Intra(Short *rcoeff, Short *qcoeff, struct QPstruct *Qu
     UChar *bmcolptr = bitmapcol;
     Int ac_clip;    /* quantized coeff bound */
 
-    OSCL_UNUSED_ARG(bitmapzz);
-    OSCL_UNUSED_ARG(comp);
+//    OSCL_UNUSED_ARG(bitmapzz);
+//    OSCL_UNUSED_ARG(comp);
 
 
     if (shortHeader) ac_clip = 126; /* clip between [-127,126] (standard allows 127!) */
@@ -450,7 +450,7 @@ Int BlockQuantDequantH263DCInter(Short *rcoeff, Short *qcoeff, struct QPstruct *
     Int ac_clip;    /* quantized coeff bound */
     Int tmp;
 
-    OSCL_UNUSED_ARG(dummy);
+//    OSCL_UNUSED_ARG(dummy);
 
     if (shortHeader) ac_clip = 126; /* clip between [-127,126] (standard allows 127!) */
     else ac_clip = 2047;  /* clip between [-2048,2047] */
@@ -497,7 +497,7 @@ Int BlockQuantDequantH263DCIntra(Short *rcoeff, Short *qcoeff, struct QPstruct *
 {
     Int tmp, coeff;
 
-    OSCL_UNUSED_ARG(QuantParam);
+//    OSCL_UNUSED_ARG(QuantParam);
 
     *bitmaprow = 0;
     coeff = rcoeff[0];
@@ -555,8 +555,8 @@ Int BlockQuantDequantMPEGInter(Short *rcoeff, Short *qcoeff, Int QP, Int *qmat,
     Int shift = 15 + (QP >> 3);
     UChar *bcolptr = bitmapcol;
 
-    OSCL_UNUSED_ARG(dc_scaler);
-    OSCL_UNUSED_ARG(comp);
+//    OSCL_UNUSED_ARG(dc_scaler);
+//    OSCL_UNUSED_ARG(comp);
 
 
     *((Int*)bitmapcol) = *((Int*)(bitmapcol + 4)) = 0;
@@ -686,8 +686,8 @@ Int BlockQuantDequantMPEGIntra(Short *rcoeff, Short *qcoeff, Int QP, Int *qmat,
     Int QPx2plus = (QP << 1) - round2;
     UChar *bmcolptr = bitmapcol;
 
-    OSCL_UNUSED_ARG(bitmapzz);
-    OSCL_UNUSED_ARG(comp);
+//    OSCL_UNUSED_ARG(bitmapzz);
+//    OSCL_UNUSED_ARG(comp);
 
     *((Int*)bitmapcol) = *((Int*)(bitmapcol + 4)) = 0;
     *bitmaprow = 0;
@@ -858,7 +858,7 @@ Int BlockQuantDequantMPEGDCInter(Short *rcoeff, Short *qcoeff, Int QP, Int *qmat
     Int shift = 15 + (QP >> 3);
     Int QPx2 = QP << 1;
 
-    OSCL_UNUSED_ARG(dummy);
+//    OSCL_UNUSED_ARG(dummy);
 
     *((Int*)bitmapcol) = *((Int*)(bitmapcol + 4)) = 0;
     *bitmaprow = 0;
@@ -922,8 +922,8 @@ Int BlockQuantDequantMPEGDCIntra(Short *rcoeff, Short *qcoeff, Int QP, Int *qmat
 {
     Int tmp, coeff, q_value;
 
-    OSCL_UNUSED_ARG(QP);
-    OSCL_UNUSED_ARG(qmat);
+//    OSCL_UNUSED_ARG(QP);
+//    OSCL_UNUSED_ARG(qmat);
 
 
     *((Int*)bitmapcol) = *((Int*)(bitmapcol + 4)) = 0;
