@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-SET (CMAKE_C_FLAGS " -DOSCL_EXPORT_REF= -DOSCL_IMPORT_REF=  -Werror -DLINUX_X86")
+SET (CMAKE_C_FLAGS " -DOSCL_EXPORT_REF= -DOSCL_IMPORT_REF=  -std=c++11 -DLINUX_X86 -Werror")
 
 SET (libm4vh263_top_srcdir ../../)
 

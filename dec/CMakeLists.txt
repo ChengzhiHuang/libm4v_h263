@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-SET (CMAKE_C_FLAGS " -DOSCL_EXPORT_REF -DOSCL_IMPORT_REF -Werror -std=gnu++14 -fpermissive")
+SET (CMAKE_C_FLAGS " -DOSCL_EXPORT_REF -DOSCL_IMPORT_REF -Werror -std=c++11 -fpermissive")
 
 SET (libmpeg4_top_srcdir ../)
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-SET (CMAKE_C_FLAGS "-DOSCL_EXPORT_REF= -DOSCL_IMPORT_REF= -DBX_RC ")
+SET (CMAKE_C_FLAGS "-DOSCL_EXPORT_REF= -DOSCL_IMPORT_REF= -DBX_RC -std=gnu++14")
 
 SET (mpeg4_src_files
         m4v_h263_enc_test.cpp
