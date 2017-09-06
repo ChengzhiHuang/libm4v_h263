@@ -96,3 +96,28 @@ cc_library_shared {
         ],
     },
 }
+//###############################################################################
+
+cc_test {
+    name: "libstagefright_m4vh263dec_test",
+    gtest: false,
+
+    srcs: ["test/m4v_h263_dec_test.cpp"],
+
+    local_include_dirs: ["src"],
+
+    cflags: [
+        "-DOSCL_EXPORT_REF=",
+        "-DOSCL_IMPORT_REF=",
+        "-DBX_RC",
+        "-DLINUX_X86"
+    ],
+
+    sanitize: {
+        misc_undefined: [
+            "signed-integer-overflow",
+        ],
+    },
+
+    static_libs: ["libstagefright_m4vh263dec"],
+}
