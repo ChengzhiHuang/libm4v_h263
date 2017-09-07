@@ -133,3 +133,17 @@ BITS_put(bits, 0x0, 1);
 <br/>接着是`VO header`的start code,`00 01 B5`
 <br/>最后就是`VOL header`的start code,`00 00 01 20`这里他的VOP_START_CODE_LENGTH 和`教程2`里面的不太一样,留待后续研究吧.
 
+
+
+### Other tricks
+<br/>在设置 `-Werror`的情况下,如何在print指针地址?
+<br/>经过两次转换,如下
+```c
+#include <cstdio>
+uint BitstreamRead1Bits(BitstreamDecVideo *stream)
+{
+    printf("%x \n",(unsigned int)(unsigned int*) (stream));
+}
+
+```
+<br/>一般来说,buffer的管理是应该封装在API中的,但是由于这个库只支持SP,也就意味着没有B-frame,而P-frame只会将前一帧作为参考帧,所以其实只需要1个input Buffer,两个output Buffer轮流转换即可.这个是需要自己在mian函数中进行管理的.
