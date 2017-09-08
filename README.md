@@ -2,9 +2,9 @@
 ------
 
 ## Intruction
-<br/>Forked from [AOSP's git](https://android.googlesource.com/platform/external/libavc).
-<br/>The encode part can run on Ubantu x86 platforms using cmake.
-<br/>The decode part need a test file and I'll add it in the near future.
+<br/>Forked from [AOSP's git](https://android.googlesource.com/platform/frameworks/av/+/master/media/libstagefright/codecs/m4v_h263).
+<br/>The encode & decoder's parts can be run using cmake.
+<br/>The next step is to add Display/Render part in decode's testfile.
 
 ------
 
