@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <time.h>
+
 #include "mp4dec_api.h"
 #include <mp4lib_int.h>
 
@@ -19,23 +20,25 @@ enum{
 
 int main(int argc, char *argv[]) {
 
-    if (argc < 5) {
+    if (argc < 6) {
         fprintf(stderr, "Usage %s <input file> <output yuv420> <mode> <width> "
-                "<height>\n", argv[0]);
+                "<height> <(optional)enable debug message>\n", argv[0]);
         fprintf(stderr, "mode : h263 or mpeg4\n");
-        fprintf(stderr, "For now , we only support mpeg4 for SP:No B-frame ,one layer \n");
+        fprintf(stderr, "For now , we only support mpeg4 for SP:No B-frame ,one layer\n");
         fprintf(stderr, "BTW , Your mpeg4 file must include VO&VOL header\n");
         fprintf(stderr, "Max width %d\n", kMaxWidth);
         fprintf(stderr, "Max height %d\n", kMaxHeight);
+        fprintf(stderr, "Default has no debug message\n");
         return EXIT_FAILURE;
     }
+
     // Initialize the encoder parameters.
     // Read mode.
-    bool isH263mode;
+    MP4DecodingMode decMode;
     if (strcmp(argv[3], "mpeg4") == 0) {
-        isH263mode = false;
+        decMode = MPEG4_MODE;
     } else if (strcmp(argv[3], "h263") == 0) {
-        isH263mode = true;
+        decMode = H263_MODE;
     } else {
         fprintf(stderr, "Unsupported mode %s\n", argv[3]);
         return EXIT_FAILURE;
@@ -50,9 +53,15 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    // Read if enable debug output.
+    bool enableDebug = false;
+    if(argc == 7 && strcmp(argv[6], "true") == 0){
+        enableDebug = true;
+    }
+
     // Initialize the handle.
-    VideoDecControls* decCtrl = new VideoDecControls;
-    memset(decCtrl,0,sizeof(VideoDecControls));
+    VideoDecControls decCtrl;
+    memset(&decCtrl,0,sizeof(VideoDecControls));
 
     // Allocate input buffer.
     uint8_t *inputBuf = (uint8_t *)malloc(250 * 1024);
@@ -87,7 +96,7 @@ int main(int argc, char *argv[]) {
         free(inputBuf);
         free(outputBuf);
         free(lastFrameBuf);
-        fclose(fpOutput);
+        fclose(fpInput);
         return EXIT_FAILURE;
     }
 
@@ -96,12 +105,19 @@ int main(int argc, char *argv[]) {
 
     // Set the VOL buffer & size.
     int32_t bytes = fread(inputBuf, 1, 100, fpInput);
-    int32* volbuf_size = new int32[nLayers]{bytes};
+    int32 *volbuf_size = new int32[nLayers]{bytes};
     uint8 **volbuf = new uint8*[nLayers]{ inputBuf };
 
     // Initialize the encoder & deal with the VOL header.
-    if(!PVInitVideoDecoder(decCtrl,volbuf,volbuf_size,nLayers,width,height,MPEG4_MODE)){
+    if(!PVInitVideoDecoder(&decCtrl,volbuf,volbuf_size,nLayers,width,height,decMode)){
         fprintf(stderr, "PVInitVideoDecoder failed. Unsupported content?\n");
+        free(inputBuf);
+        free(outputBuf);
+        free(lastFrameBuf);
+        fclose(fpInput);
+        fclose(fpOutput);
+        delete []volbuf_size;
+        delete []volbuf;
         return EXIT_FAILURE;
     }
 
@@ -112,12 +128,15 @@ int main(int argc, char *argv[]) {
 
     // Set timing variables.
     clock_t start, finish;
-    start = clock();
+    if(enableDebug){
+        start = clock();
+    }
+
     while (1) {
         // Read the input header & frame.
 
         // Do the parser's work :Find the VOP header.
-        // Then put it from the inputBuf to inputFrame
+        // Then put it from the inputBuf to inputFrame.
         int32_t bytesRead;
         int32_t frameSize = 250 * 1024;
         fseek(fpInput,nextFrameBeginPoint,0);
@@ -128,19 +147,26 @@ int main(int argc, char *argv[]) {
 
         // Set the Reference frame only Once.
         if(numFramesDecoded == 0){
-            PVSetReferenceYUV(decCtrl, lastFrameBuf);
+            PVSetReferenceYUV(&decCtrl, lastFrameBuf);
         }
 
         // Decode the input frame.We don't care about the audio.
         uint32 timestamp = 0xFFFFFFFF;
         uint use_ext_timestamp = 0;
-        if(PVDecodeVideoFrame(decCtrl,&inputBuf,&timestamp,&bytesRead,&use_ext_timestamp,outputBuf) != PV_TRUE){
+        if(PVDecodeVideoFrame(&decCtrl,&inputBuf,&timestamp,&bytesRead,&use_ext_timestamp,outputBuf) != PV_TRUE){
             fprintf(stderr, "Failed to decode frame %d \n",numFramesDecoded);
+            free(inputBuf);
+            free(outputBuf);
+            free(lastFrameBuf);
+            fclose(fpInput);
+            fclose(fpOutput);
+            delete []volbuf_size;
+            delete []volbuf;
             return EXIT_FAILURE;
         }
 
         // Check the next frames's VOP header begin point.
-        VideoDecData *video = (VideoDecData *) decCtrl->videoDecoderData;
+        VideoDecData *video = (VideoDecData *) decCtrl.videoDecoderData;
         nextFrameBeginPoint += ( video->bitstream->bitcnt / 8 );
 
         // Write the output.
@@ -151,12 +177,15 @@ int main(int argc, char *argv[]) {
         lastFrameBuf = outputBuf;
         outputBuf = tempBuffer;
 
-        printf("The %d frame has been decoded! \n",numFramesDecoded++);
+        if(enableDebug)
+            printf("The %d frame has been decoded! \n",numFramesDecoded++);
     }
-    finish = clock();
-    printf("numFramesDecoded : %d \n",numFramesDecoded);
-    double duration = (double)(finish - start) / CLOCKS_PER_SEC;
-    printf("Whole time is %f , average fps is %f \n", duration ,1 / (duration/numFramesDecoded));
+    if(enableDebug){
+        finish = clock();
+        printf("numFramesDecoded : %d \n",numFramesDecoded);
+        double duration = (double)(finish - start) / CLOCKS_PER_SEC;
+        printf("Whole time is %f , average fps is %f \n", duration ,1 / (duration/numFramesDecoded));
+    }
 
     delete []volbuf_size;
     delete []volbuf;
@@ -171,5 +200,5 @@ int main(int argc, char *argv[]) {
     free(outputBuf);
 
     // Close encoder instance.
-    PVCleanUpVideoDecoder(decCtrl);
+    PVCleanUpVideoDecoder(&decCtrl);
 }
