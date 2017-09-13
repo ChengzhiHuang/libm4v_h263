@@ -9,6 +9,9 @@
 #include <time.h>
 #include "mp4dec_api.h"
 #include <mp4lib_int.h>
+#include <unistd.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_render.h>
 
 // Constants.
 enum{
@@ -16,6 +19,109 @@ enum{
     kMaxHeight        = 1080,
 };
 
+class YuvRender{
+
+public:
+    YuvRender(int x , int y ,int width , int height){
+        // Initialize SDL
+        SDL_Init(SDL_INIT_VIDEO);
+        // Clean up on exit
+        atexit(SDL_Quit);
+
+        win = SDL_CreateWindow("m4v_h263_dec_test", x, y, width, height, SDL_WINDOW_SHOWN);
+        if (win == nullptr){
+            printf("SDL_CreateWindow Error: %s \n",SDL_GetError()) ;
+            SDL_Quit();
+            exit(1);
+        }
+
+        ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        if (ren == nullptr){
+            SDL_DestroyWindow(win);
+            printf("SDL_CreateRenderer Error: %s \n",SDL_GetError());
+            SDL_Quit();
+            exit(1);
+        }
+        SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
+        texture =SDL_CreateTexture(ren, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STREAMING, width, height);
+        rect = new SDL_Rect{x,y,width,height};
+    }
+
+    bool Render(unsigned char* buffer){
+        if(SDL_PollEvent(&event)){
+            printf("SDL_Event: %d \n",event.type);
+        }
+
+        SDL_UpdateTexture(texture, NULL, buffer, rect->w);
+
+//        void * pixel = NULL;
+//        int pitch = 0;
+//        if(0 == SDL_LockTexture(texture, NULL, &pixel, &pitch))
+//        {
+//            // 如果不考虑数据对齐，直接拷贝YUV数据是没有问题的
+//            if (pitch == rect->w)
+//            {
+//                memcpy(pixel, buffer, (rect->w * rect->h * 3) / 2);
+//            }
+//            else // 可能发生pitch > width的情况
+//            {
+//                // 如果有数据对齐的情况，单独拷贝每一行数据
+//                // for Y
+//                int h = rect->h;
+//                int w = rect->w;
+//                unsigned char * dst = reinterpret_cast<unsigned char *>(pixel);
+//                unsigned char * src = buffer;
+//                for (int i = 0; i < h; ++i)
+//                {
+//                    memcpy(dst, src, w);
+//                    dst += pitch;
+//                    src += w;
+//                }
+//
+//                h >>= 1;
+//                w >>= 1;
+//                pitch >>= 1;
+//                // for U
+//                for (int i = 0; i < h; ++i)
+//                {
+//                    memcpy(dst, src, w);
+//                    dst += pitch;
+//                    src += w;
+//                }
+//
+//                // for V
+//                for (int i = 0; i < h; ++i)
+//                {
+//                    memcpy(dst, src, w);
+//                    dst += pitch;
+//                    src += w;
+//                }
+//            }
+//            SDL_UnlockTexture(texture);
+//        }
+//        SDL_RenderClear(ren);
+        SDL_RenderCopy(ren, texture, NULL, NULL);
+//        SDL_Delay(200);
+        SDL_RenderPresent(ren);
+        return true;
+    }
+
+    ~YuvRender(){
+        delete rect;
+        SDL_DestroyTexture(texture);
+        SDL_DestroyRenderer(ren);
+        SDL_DestroyWindow(win);
+        SDL_Quit();
+    }
+
+private:
+    SDL_Window *win = NULL;
+    SDL_Renderer *ren = NULL;
+    SDL_Texture *texture = NULL;
+    SDL_Rect *rect = NULL;
+
+    SDL_Event event;//事件
+};
 
 int main(int argc, char *argv[]) {
 
@@ -91,6 +197,8 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    YuvRender yuvRender(0,0,width,height);
+
     // Set the layer.
     int nLayers = 1;
 
@@ -142,6 +250,8 @@ int main(int argc, char *argv[]) {
         // Check the next frames's VOP header begin point.
         VideoDecData *video = (VideoDecData *) decCtrl->videoDecoderData;
         nextFrameBeginPoint += ( video->bitstream->bitcnt / 8 );
+
+        yuvRender.Render(outputBuf);
 
         // Write the output.
         fwrite(outputBuf, 1, dataLength, fpOutput);

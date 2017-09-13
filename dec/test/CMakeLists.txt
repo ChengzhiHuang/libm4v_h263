@@ -13,13 +13,14 @@ INCLUDE_DIRECTORIES(
 
 LINK_DIRECTORIES(
         ../../lib
+        /usr/local/lib
 )
 
 ADD_DEFINITIONS (${CMAKE_C_FLAGS})
 
 ADD_EXECUTABLE(stagefright_m4vh263dec_test ${mpeg4_src_files})
 
-TARGET_LINK_LIBRARIES (stagefright_m4vh263dec_test stagefright_m4vh263dec)
+TARGET_LINK_LIBRARIES (stagefright_m4vh263dec_test stagefright_m4vh263dec SDL2)
 
 SET (EXECUTABLE_OUTPUT_PATH ../../bin)
 
